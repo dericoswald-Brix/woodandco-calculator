@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interior Cost Estimator · Wood & Co. Interiors</title>
+  <meta name="description" content="Get a bespoke interior cost estimate for your Bangalore home — by Wood & Co. Interiors." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:      #1A1209;
+      --espresso: #2C1F14;
+      --brown:    #4A3728;
+      --mid:      #8A7060;
+      --gold:     #B8935A;
+      --gold-lt:  #D4AF7A;
+      --linen:    #EDE5D8;
+      --linen2:   #F5F0E8;
+      --linen3:   #FBF8F3;
+      --cream:    #FFFDF9;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--linen2);
+      color: var(--espresso);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── MASTHEAD ── */
+    .masthead {
+      background: var(--espresso);
+      padding: 40px 32px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .masthead::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(184,147,90,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .masthead-ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .masthead-ornament .line {
+      height: 1px;
+      width: 40px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+    .masthead-ornament .line.r {
+      background: linear-gradient(to left, transparent, var(--gold));
+    }
+    .masthead-ornament .diamond {
+      width: 5px; height: 5px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+    .masthead-wordmark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 8vw, 52px);
+      font-weight: 300;
+      color: var(--linen3);
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+    .masthead-wordmark em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--gold-lt);
+    }
+    .masthead-sub {
+      font-size: 9px;
+      letter-spacing: 0.38em;
+      color: var(--gold);
+      margin-top: 10px;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+    .masthead-rule {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .masthead-rule span {
+      height: 1px;
+      width: 60px;
+      background: rgba(184,147,90,0.35);
+      display: block;
+    }
+    .masthead-rule i {
+      font-size: 8px;
+      color: var(--gold);
+      font-style: normal;
+      letter-spacing: 0.2em;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--espresso);
+      padding: 0 32px 52px;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(34px, 9vw, 58px);
+      font-weight: 300;
+      color: var(--linen3);
+      line-height: 1.15;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold-lt);
+      font-weight: 300;
+    }
+    .hero-desc {
+      font-size: 12px;
+      color: rgba(235,225,210,0.55);
+      margin-top: 16px;
+      line-height: 1.8;
+      letter-spacing: 0.03em;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── PROGRESS STRIP ── */
+    .progress-strip {
+      background: var(--espresso);
+      padding: 0 32px 28px;
+    }
+    .progress-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+    .pdot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(184,147,90,0.35);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px;
+      letter-spacing: 0.05em;
+      color: rgba(184,147,90,0.45);
+      font-family: 'Inter', sans-serif;
+      transition: all 0.35s ease;
+      flex-shrink: 0;
+    }
+    .pdot.active {
+      border-color: var(--gold);
+      background: var(--gold);
+      color: var(--espresso);
+      font-weight: 500;
+    }
+    .pdot.done {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .pline {
+      flex: 1;
+      height: 1px;
+      background: rgba(184,147,90,0.2);
+      max-width: 48px;
+      transition: background 0.35s ease;
+    }
+    .pline.done { background: var(--gold); }
+
+    /* ── WRAPPER ── */
+    .wrapper {
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /* ── STEP CARD ── */
+    .step-card {
+      background: var(--cream);
+      border: 1px solid rgba(184,147,90,0.18);
+      margin-top: 28px;
+      padding: 40px 0 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .step-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 28px; right: 28px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .step { display: none; }
+    .step.active { display: block; }
+
+    .step-eyebrow {
+      font-size: 9px;
+      letter-spacing: 0.32em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 28px;
+      font-weight: 400;
+    }
+    .step-eyebrow::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(184,147,90,0.35), transparent);
+    }
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(33px, 8.5vw, 48px);
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.06;
+      margin-bottom: 12px;
+      padding: 0 28px;
+      letter-spacing: -0.01em;
+    }
+    .step-hint {
+      font-size: 12px;
+      color: var(--mid);
+      line-height: 1.78;
+      margin-bottom: 34px;
+      letter-spacing: 0.015em;
+      padding: 0 28px;
+      font-weight: 300;
+    }
+    .step-actions {
+      padding: 0 28px;
+    }
+
+    /* ── OPTION TILES ── */
+    .options { display: grid; gap: 10px; padding: 0 28px; }
+    .options.col3 { grid-template-columns: 1fr 1fr 1fr; }
+
+    .opt {
+      border: 1px solid rgba(184,147,90,0.22);
+      padding: 0 0 14px 0;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      background: var(--linen2);
+      text-align: center;
+      user-select: none;
+      position: relative;
+      display: block;
+      overflow: hidden;
+    }
+    /* finish tiles (no photo) get padding on all sides */
+    #finishOpts .opt { padding: 28px 10px 22px; }
+    .opt::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+    .opt:hover { background: var(--linen); border-color: rgba(184,147,90,0.5); }
+    .opt:hover::after { transform: scaleX(1); }
+    .opt.selected {
+      background: var(--espresso);
+      border-color: var(--espresso);
+      box-shadow: 0 6px 20px rgba(44,31,20,0.2);
+    }
+    .opt.selected::after { transform: scaleX(1); }
+    .opt.selected::before {
+      display: none;
+    }
+
+    .opt-inner { display: block; }
+    .opt-text { display: block; padding: 12px 8px 0; }
+    .opt-icon {
+      display: block;
+      width: 100%;
+      height: 96px;
+      overflow: hidden;
+      margin-bottom: 0;
+      position: relative;
+      background: var(--espresso);
+    }
+    .opt-icon img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.5s ease, filter 0.3s ease;
+      filter: grayscale(0.4) sepia(0.35) brightness(0.78) contrast(1.05);
+    }
+    /* warm tonal overlay to unify photos with brand palette */
+    .opt-icon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(184,147,90,0.18) 0%, rgba(44,31,20,0.45) 100%);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .opt:hover .opt-icon img {
+      transform: scale(1.06);
+      filter: grayscale(0.25) sepia(0.3) brightness(0.88) contrast(1.05);
+    }
+    .opt.selected .opt-icon img {
+      filter: grayscale(0.5) sepia(0.5) brightness(0.6) contrast(1.1);
+    }
+    .opt.selected .opt-icon::after { opacity: 0.7; }
+    .opt-text { display: block; }
+    .opt-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+      display: block;
+    }
+    .opt.selected .opt-label { color: var(--linen3); }
+    .opt-price {
+      font-size: 8px;
+      color: var(--mid);
+      margin-top: 5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      display: block;
+      line-height: 1.6;
+    }
+    .opt.selected .opt-price { color: var(--gold-lt); }
+    .opt-arrow { display: none; }
+
+    /* ── PROPERTY ROWS (full-width with thumbnail) ── */
+    .prop-list { padding: 0 28px; display: flex; flex-direction: column; gap: 10px; }
+    .prop-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 1px solid rgba(184,147,90,0.22);
+      background: var(--linen2);
+      padding: 20px 20px;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      transition: all 0.22s ease;
+      overflow: hidden;
+    }
+    .prop-row:hover { background: var(--linen); border-color: rgba(184,147,90,0.5); }
+    .prop-row.selected {
+      background: var(--espresso);
+      border-color: var(--espresso);
+      box-shadow: 0 6px 20px rgba(44,31,20,0.2);
+    }
+    .prop-thumb {
+      width: 64px; height: 64px;
+      flex-shrink: 0;
+      overflow: hidden;
+      position: relative;
+      background: var(--espresso);
+    }
+    .prop-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(0.4) sepia(0.35) brightness(0.8) contrast(1.05);
+      transition: transform 0.5s ease, filter 0.3s ease;
+    }
+    .prop-thumb::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(150deg, rgba(184,147,90,0.15), rgba(44,31,20,0.4));
+      mix-blend-mode: multiply;
+    }
+    .prop-row:hover .prop-thumb img { transform: scale(1.08); filter: grayscale(0.25) sepia(0.3) brightness(0.9); }
+    .prop-row.selected .prop-thumb img { filter: grayscale(0.5) sepia(0.5) brightness(0.65); }
+    .prop-text { flex: 1; min-width: 0; }
+    .prop-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.15;
+      letter-spacing: 0.005em;
+      display: block;
+    }
+    .prop-row.selected .prop-label { color: var(--linen3); }
+    .prop-sub {
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-top: 4px;
+      display: block;
+    }
+    .prop-row.selected .prop-sub { color: var(--gold-lt); }
+    .prop-mark {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 1px solid rgba(184,147,90,0.4);
+      flex-shrink: 0;
+      position: relative;
+      transition: all 0.22s ease;
+    }
+    .prop-row.selected .prop-mark {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+    .prop-row.selected .prop-mark::after {
+      content: '';
+      position: absolute;
+      left: 7px; top: 4px;
+      width: 5px; height: 9px;
+      border: solid var(--espresso);
+      border-width: 0 1.5px 1.5px 0;
+      transform: rotate(45deg);
+    }
+
+    /* ── ROOM TILES — 2-column grid ── */
+    .rooms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 28px; }
+
+    .room-tile {
+      border: 1px solid rgba(184,147,90,0.2);
+      padding: 16px 14px;
+      cursor: pointer;
+      background: var(--linen2);
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      transition: all 0.18s ease;
+      user-select: none;
+      position: relative;
+    }
+    .room-tile:hover { background: var(--linen); border-color: rgba(184,147,90,0.45); }
+    .room-tile.checked {
+      background: var(--espresso);
+      border-color: var(--espresso);
+      box-shadow: 0 4px 16px rgba(44,31,20,0.18);
+    }
+    .room-tile.checked::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--gold);
+    }
+    .rt-check {
+      width: 18px; height: 18px;
+      border: 1px solid rgba(184,147,90,0.4);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px;
+      color: transparent;
+      transition: all 0.18s;
+      margin-top: 2px;
+    }
+    .room-tile.checked .rt-check {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--espresso);
+      font-weight: 700;
+    }
+    .rt-body { flex: 1; }
+    .rt-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+      display: block;
+    }
+    .room-tile.checked .rt-label { color: var(--linen2); }
+    .rt-hint {
+      font-size: 9px;
+      letter-spacing: 0.07em;
+      color: var(--mid);
+      text-transform: uppercase;
+      margin-top: 3px;
+      display: block;
+    }
+    .room-tile.checked .rt-hint { color: var(--gold-lt); }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 28px 0 20px;
+    }
+    .section-divider .sd-line {
+      flex: 1; height: 1px;
+      background: rgba(184,147,90,0.2);
+    }
+    .section-divider .sd-label {
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* ── AREA SLIDER ── */
+    .area-display {
+      text-align: center;
+      padding: 28px 28px 8px;
+    }
+    .area-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(56px, 16vw, 80px);
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .area-unit {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--mid);
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    .slider-track { padding: 24px 28px 4px; position: relative; }
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%; height: 1px;
+      background: linear-gradient(to right, var(--gold) var(--pct, 15%), rgba(184,147,90,0.2) var(--pct, 15%));
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--cream);
+      border: 1.5px solid var(--gold);
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(184,147,90,0.3);
+    }
+    .slider-ends {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--mid);
+      letter-spacing: 0.06em;
+      margin-top: 12px;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      width: 100%;
+      background: var(--espresso);
+      color: var(--linen2);
+      border: none;
+      padding: 17px 24px;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .btn-primary:hover::after { transform: scaleX(1); }
+    .btn-primary:hover { background: var(--brown); }
+    .btn-primary:disabled {
+      background: rgba(74,55,40,0.15);
+      color: var(--mid);
+      cursor: not-allowed;
+    }
+    .btn-primary:disabled::after { display: none; }
+
+    .btn-back {
+      background: none; border: none;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--mid);
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0;
+      transition: color 0.2s;
+    }
+    .btn-back:hover { color: var(--espresso); }
+    .btn-back::before {
+      content: '';
+      display: block;
+      width: 20px; height: 1px;
+      background: currentColor;
+    }
+
+    /* ── FORM ── */
+    .field { margin-bottom: 20px; }
+    .field label {
+      display: block;
+      font-size: 8px;
+      letter-spacing: 0.28em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .field input, .field select {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid rgba(184,147,90,0.3);
+      padding: 10px 0 10px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
+      background: transparent;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+      border-radius: 0;
+      -webkit-appearance: none;
+    }
+    .field input:focus, .field select:focus {
+      border-bottom-color: var(--espresso);
+    }
+    .field input::placeholder { color: rgba(138,112,96,0.4); font-style: italic; }
+    .field select option { background: var(--cream); color: var(--ink); font-size: 14px; }
+
+    .error-msg {
+      font-size: 10px;
+      color: #8B3030;
+      letter-spacing: 0.04em;
+      margin-top: 5px;
+      display: none;
+    }
+    .error-msg.show { display: block; }
+
+    /* ── RESULT ── */
+    .result-hero {
+      padding: 36px 28px 28px;
+      text-align: center;
+      border-bottom: 1px solid rgba(184,147,90,0.18);
+      margin-bottom: 0;
+      position: relative;
+    }
+    .result-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 20%; right: 20%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .result-eyebrow {
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .result-figure {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(44px, 12vw, 64px);
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .result-figure .rs { font-size: 0.45em; color: var(--gold); vertical-align: middle; }
+    .result-figure .sep { font-size: 0.35em; color: var(--mid); margin: 0 6px; }
+    .result-sub {
+      font-size: 10px;
+      color: var(--mid);
+      margin-top: 10px;
+      letter-spacing: 0.08em;
+    }
+
+    .bkd-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(184,147,90,0.1);
+    }
+    .bkd-row:last-child { border-bottom: none; }
+    .bkd-label {
+      font-size: 12px;
+      color: var(--mid);
+      letter-spacing: 0.03em;
+    }
+    .bkd-amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--ink);
+    }
+
+    .disclaimer {
+      font-size: 10px;
+      color: var(--mid);
+      line-height: 1.8;
+      text-align: center;
+      letter-spacing: 0.03em;
+      padding: 20px 8px;
+      border-top: 1px solid rgba(184,147,90,0.15);
+      margin-top: 12px;
+    }
+
+    /* ── WA BUTTON ── */
+    .wa-wrap { margin-top: 24px; }
+    .wa-btn {
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px;
+      width: 100%;
+      background: #1A3A22;
+      color: #E8F5E0;
+      border: none;
+      padding: 17px 24px;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .wa-btn:hover { background: #142E1A; }
+
+    .website-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%;
+      border: 1px solid rgba(184,147,90,0.35);
+      color: var(--brown);
+      background: transparent;
+      padding: 15px 24px;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      margin-top: 10px;
+      transition: all 0.2s;
+    }
+    .website-btn:hover { border-color: var(--espresso); color: var(--espresso); }
+
+    .restart-btn {
+      display: block;
+      text-align: center;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      cursor: pointer;
+      margin-top: 20px;
+      background: none; border: none; width: 100%;
+      transition: color 0.2s;
+    }
+    .restart-btn:hover { color: var(--espresso); }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      text-align: center;
+      padding: 0 24px 48px;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 300;
+      color: var(--brown);
+      letter-spacing: 0.06em;
+    }
+    .footer-sub {
+      font-size: 8px;
+      letter-spacing: 0.28em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .footer-links {
+      margin-top: 16px;
+      font-size: 10px;
+      color: var(--mid);
+      letter-spacing: 0.05em;
+    }
+    .footer-links a { color: var(--brown); text-decoration: none; }
+    .footer-rule {
+      display: flex; align-items: center; gap: 12px;
+      margin: 20px auto 24px;
+      max-width: 200px;
+    }
+    .footer-rule span { flex: 1; height: 1px; background: rgba(184,147,90,0.25); }
+    .footer-rule i { font-size: 6px; color: var(--gold); font-style: normal; }
+
+    @media (max-width: 360px) {
+      .step-card { padding: 32px 0 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-ornament">
+    <div class="line"></div>
+    <div class="diamond"></div>
+    <div class="line r"></div>
+  </div>
+  <div class="masthead-wordmark">Wood <em>&</em> Co.</div>
+  <div class="masthead-sub">I · N · T · E · R · I · O · R · S</div>
+  <div class="masthead-rule">
+    <span></span>
+    <i>✦</i>
+    <span></span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Bespoke Estimation</div>
+  <h1>What will your<br><em>interior cost?</em></h1>
+  <p class="hero-desc">Four considered questions. One precise estimate. A conversation that begins at the right number.</p>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-strip">
+  <div class="progress-dots">
+    <div class="pdot active" id="pd1">01</div>
+    <div class="pline" id="pl1"></div>
+    <div class="pdot" id="pd2">02</div>
+    <div class="pline" id="pl2"></div>
+    <div class="pdot" id="pd3">03</div>
+    <div class="pline" id="pl3"></div>
+    <div class="pdot" id="pd4">04</div>
+  </div>
+</div>
+
+<!-- STEPS -->
+<div class="wrapper">
+  <div class="step-card">
+
+    <!-- STEP 1 -->
+    <div class="step active" id="step1">
+      <div class="step-eyebrow">Question One</div>
+      <div class="step-title">What kind of home?</div>
+      <div class="step-hint">Layout and structural complexity vary significantly across property types.</div>
+      <div class="prop-list">
+        <div class="prop-row" onclick="selectOpt(this,'propType','apartment')">
+          <div class="prop-text"><span class="prop-label">Apartment</span><span class="prop-sub">Flat / Builder floor</span></div>
+          <span class="prop-mark"></span>
+        </div>
+        <div class="prop-row" onclick="selectOpt(this,'propType','villa')">
+          <div class="prop-text"><span class="prop-label">Villa / Row House</span><span class="prop-sub">Gated community</span></div>
+          <span class="prop-mark"></span>
+        </div>
+        <div class="prop-row" onclick="selectOpt(this,'propType','independent')">
+          <div class="prop-text"><span class="prop-label">Independent House</span><span class="prop-sub">Standalone plot</span></div>
+          <span class="prop-mark"></span>
+        </div>
+      </div>
+      <div class="step-actions">
+        <button class="btn-primary" id="btn1" onclick="goStep(2)" disabled>Continue</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step" id="step2">
+      <div class="step-eyebrow">Question Two</div>
+      <div class="step-title">How large is the space?</div>
+      <div class="step-hint">Carpet area in sq.ft — not built-up. Move the dial to your size.</div>
+      <div class="area-display">
+        <div class="area-num" id="areaVal">1,000</div>
+        <div class="area-unit">square feet</div>
+      </div>
+      <div class="slider-track">
+        <input type="range" id="areaSlider" min="400" max="5000" step="50" value="1000"
+               oninput="updateArea(this.value)" />
+        <div class="slider-ends"><span>400 sq.ft</span><span>5,000 sq.ft</span></div>
+      </div>
+      <div class="step-actions">
+        <button class="btn-primary" onclick="goStep(3)">Continue</button>
+        <button class="btn-back" onclick="goStep(1)">Back</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step" id="step3">
+      <div class="step-eyebrow">Question Three</div>
+      <div class="step-title">Scope of work</div>
+      <div class="step-hint">Select every room, then choose your finish standard.</div>
+
+      <div class="rooms-grid">
+        <div class="room-tile" onclick="toggleRoom(this,'kitchen')">
+          <div class="rt-check" id="chk-kitchen">✓</div>
+          <div class="rt-body"><span class="rt-label">Modular Kitchen</span><span class="rt-hint">Cabinets + counters</span></div>
+        </div>
+        <div class="room-tile" onclick="toggleRoom(this,'living')">
+          <div class="rt-check" id="chk-living">✓</div>
+          <div class="rt-body"><span class="rt-label">Living & Dining</span><span class="rt-hint">TV unit + furnishing</span></div>
+        </div>
+        <div class="room-tile" onclick="toggleRoom(this,'master')">
+          <div class="rt-check" id="chk-master">✓</div>
+          <div class="rt-body"><span class="rt-label">Master Bedroom</span><span class="rt-hint">Wardrobe + headboard</span></div>
+        </div>
+        <div class="room-tile" onclick="toggleRoom(this,'bedroom2')">
+          <div class="rt-check" id="chk-bedroom2">✓</div>
+          <div class="rt-body"><span class="rt-label">Bedroom 2</span><span class="rt-hint">Wardrobe + storage</span></div>
+        </div>
+        <div class="room-tile" onclick="toggleRoom(this,'bedroom3')">
+          <div class="rt-check" id="chk-bedroom3">✓</div>
+          <div class="rt-body"><span class="rt-label">Bedroom 3</span><span class="rt-hint">Wardrobe + storage</span></div>
+        </div>
+        <div class="room-tile" onclick="toggleRoom(this,'bathroom')">
+          <div class="rt-check" id="chk-bathroom">✓</div>
+          <div class="rt-body"><span class="rt-label">Bathrooms</span><span class="rt-hint">Tiles + fittings</span></div>
+        </div>
+        <div class="room-tile" onclick="toggleRoom(this,'study')">
+          <div class="rt-check" id="chk-study">✓</div>
+          <div class="rt-body"><span class="rt-label">Study / Pooja</span><span class="rt-hint">Custom joinery</span></div>
+        </div>
+        <div class="room-tile" onclick="toggleRoom(this,'balcony')">
+          <div class="rt-check" id="chk-balcony">✓</div>
+          <div class="rt-body"><span class="rt-label">Balcony / Utility</span><span class="rt-hint">Flooring + railing</span></div>
+        </div>
+      </div>
+
+      <div class="section-divider" style="padding:0 28px;margin:28px 0 0;">
+        <div class="sd-line"></div>
+        <div class="sd-label">Finish Standard</div>
+        <div class="sd-line"></div>
+      </div>
+
+      <div class="options col3" id="finishOpts">
+        <div class="opt" onclick="selectOpt(this,'finish','standard')">
+          <div class="opt-inner"><div class="opt-text"><span class="opt-label">Standard</span><span class="opt-price">₹850–1,100<br>per sq.ft</span></div></div>
+        </div>
+        <div class="opt" onclick="selectOpt(this,'finish','premium')">
+          <div class="opt-inner"><div class="opt-text"><span class="opt-label">Premium</span><span class="opt-price">₹1,100–1,600<br>per sq.ft</span></div></div>
+        </div>
+        <div class="opt" onclick="selectOpt(this,'finish','luxury')">
+          <div class="opt-inner"><div class="opt-text"><span class="opt-label">Luxury</span><span class="opt-price">₹1,600–2,400<br>per sq.ft</span></div></div>
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button class="btn-primary" id="btn3" onclick="goStep(4)" disabled>Continue</button>
+        <button class="btn-back" onclick="goStep(2)">Back</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 — Lead -->
+    <div class="step" id="step4">
+      <div class="step-eyebrow">One Last Step</div>
+      <div class="step-title">Where shall we<br><em>send your estimate?</em></div>
+      <div class="step-hint">We share the full breakdown on WhatsApp. No follow-up unless you ask.</div>
+
+      <div class="step-actions">
+        <div class="field">
+          <label>Your Name</label>
+          <input type="text" id="leadName" placeholder="Full name" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label>WhatsApp Number</label>
+          <input type="tel" id="leadPhone" placeholder="+91 98765 43210" autocomplete="tel"
+                 oninput="validatePhone()" />
+          <div class="error-msg" id="phoneError">Please enter a valid 10-digit number.</div>
+        </div>
+        <div class="field">
+          <label>When do you plan to begin?</label>
+          <select id="leadTimeline">
+            <option value="">Select a timeline</option>
+            <option value="immediately">Within 1 month</option>
+            <option value="1-3months">1 – 3 months</option>
+            <option value="3-6months">3 – 6 months</option>
+            <option value="planning">Just exploring</option>
+          </select>
+        </div>
+        <button class="btn-primary" onclick="showResult()">Reveal My Estimate</button>
+        <div class="error-msg" id="formError" style="display:none;text-align:center;margin-top:10px"></div>
+        <button class="btn-back" onclick="goStep(3)">Back</button>
+      </div>
+    </div>
+
+    <!-- STEP 5 — Result -->
+    <div class="step" id="step5">
+      <div class="result-hero">
+        <div class="result-eyebrow">Your Estimate</div>
+        <div class="result-figure">
+          <span class="rs">₹</span><span id="resultLow">—</span>
+          <span class="sep">–</span>
+          <span class="rs">₹</span><span id="resultHigh">—</span>
+        </div>
+        <div class="result-sub" id="resultSub">Lakhs · Bangalore market · Indicative</div>
+      </div>
+
+      <div class="step-actions">
+        <div class="section-divider" style="margin-top:0">
+          <div class="sd-line"></div>
+          <div class="sd-label">Room Breakdown</div>
+          <div class="sd-line"></div>
+        </div>
+
+        <div id="breakdownRows"></div>
+
+        <div class="disclaimer">
+          An indicative range based on current Bangalore market rates. Final investment depends
+          on design complexity, brand specifications &amp; site conditions. A Wood &amp; Co. designer will
+          share a precise quote after your complimentary site visit.
+        </div>
+
+        <div class="wa-wrap">
+          <a id="waLink" class="wa-btn" href="#" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#E8F5E0">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Book a Consultation on WhatsApp
+          </a>
+        </div>
+
+        <a href="https://brixconstruction.in" target="_blank" class="website-btn">
+          Explore Our Work → brixconstruction.in
+        </a>
+
+        <button class="restart-btn" onclick="restart()">Begin a new estimate</button>
+      </div>
+    </div>
+
+  </div><!-- /step-card -->
+
+  <!-- FOOTER -->
+  <div class="site-footer" style="margin-top:48px">
+    <div class="footer-rule">
+      <span></span><i>✦</i><span></span>
+    </div>
+    <div class="footer-logo">Wood & Co.</div>
+    <div class="footer-sub">Interiors · Bangalore</div>
+    <div class="footer-links" style="margin-top:14px">
+      <a href="https://brixconstruction.in">brixconstruction.in</a>
+      &nbsp;·&nbsp;
+      <a href="tel:+918747809064">+91 87478 09064</a>
+    </div>
+    <div class="footer-links" style="margin-top:6px;font-size:9px;opacity:0.6">Part of Brix Construction</div>
+  </div>
+</div>
+
+<script>
+  const state = {
+    propType: null, area: 1000,
+    rooms: new Set(), finish: null,
+    name: '', phone: '', timeline: ''
+  };
+
+  const roomRates = {
+    kitchen:  { standard:[80000,120000],  premium:[130000,200000],  luxury:[220000,380000] },
+    living:   { standard:[60000,90000],   premium:[95000,150000],   luxury:[160000,280000] },
+    master:   { standard:[55000,80000],   premium:[85000,130000],   luxury:[140000,240000] },
+    bedroom2: { standard:[40000,60000],   premium:[65000,100000],   luxury:[110000,180000] },
+    bedroom3: { standard:[35000,55000],   premium:[60000,90000],    luxury:[95000,160000] },
+    bathroom: { standard:[25000,40000],   premium:[45000,75000],    luxury:[80000,140000] },
+    study:    { standard:[30000,45000],   premium:[50000,80000],    luxury:[85000,140000] },
+    balcony:  { standard:[20000,35000],   premium:[38000,60000],    luxury:[65000,110000] }
+  };
+
+  const roomLabels = {
+    kitchen:'Modular Kitchen', living:'Living & Dining',
+    master:'Master Bedroom', bedroom2:'Bedroom 2',
+    bedroom3:'Bedroom 3', bathroom:'Bathrooms',
+    study:'Study / Pooja', balcony:'Balcony / Utility'
+  };
+
+  function setProgress(step) {
+    [1,2,3,4].forEach(n => {
+      const dot = document.getElementById('pd'+n);
+      dot.classList.remove('active','done');
+      if (n < step) dot.classList.add('done');
+      else if (n === step) dot.classList.add('active');
+      if (n < 4) {
+        const line = document.getElementById('pl'+n);
+        line.classList.toggle('done', n < step);
+      }
+    });
+  }
+
+  function goStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step'+n).classList.add('active');
+    setProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function selectOpt(el, key, val) {
+    const container = el.closest('.options') || el.closest('.prop-list');
+    const items = container.querySelectorAll('.opt, .prop-row');
+    items.forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    state[key] = val;
+    if (key === 'propType') document.getElementById('btn1').disabled = false;
+    if (key === 'finish') checkStep3();
+  }
+
+  function toggleRoom(el, room) {
+    el.classList.toggle('checked');
+    if (el.classList.contains('checked')) state.rooms.add(room);
+    else state.rooms.delete(room);
+    checkStep3();
+  }
+
+  function checkStep3() {
+    document.getElementById('btn3').disabled = !(state.rooms.size > 0 && state.finish);
+  }
+
+  function updateArea(v) {
+    state.area = parseInt(v);
+    document.getElementById('areaVal').textContent = Number(v).toLocaleString('en-IN');
+    // Update slider gradient
+    const slider = document.getElementById('areaSlider');
+    const pct = ((v - 400) / (5000 - 400)) * 100;
+    slider.style.setProperty('--pct', pct + '%');
+  }
+
+  function validatePhone() {
+    const raw = document.getElementById('leadPhone').value.replace(/\D/g,'');
+    document.getElementById('phoneError').classList.toggle('show', raw.length > 0 && raw.length < 10);
+  }
+
+  function showResult() {
+    const name = document.getElementById('leadName').value.trim();
+    const phoneRaw = document.getElementById('leadPhone').value.replace(/\D/g,'');
+    const timeline = document.getElementById('leadTimeline').value;
+    const errEl = document.getElementById('formError');
+
+    if (!name) { showFormErr('Please enter your name.'); return; }
+    if (phoneRaw.length < 10) { showFormErr('Please enter a valid WhatsApp number.'); return; }
+
+    errEl.style.display = 'none';
+    state.name = name;
+    state.phone = phoneRaw.slice(-10);
+    state.timeline = timeline;
+
+    let totalLow = 0, totalHigh = 0;
+    const rows = [];
+
+    state.rooms.forEach(room => {
+      const rates = roomRates[room][state.finish];
+      const areaFactor = state.area > 2000 ? 1 + (state.area - 2000) / 10000 : 1;
+      const low  = Math.round(rates[0] * areaFactor);
+      const high = Math.round(rates[1] * areaFactor);
+      totalLow += low; totalHigh += high;
+      rows.push({ label: roomLabels[room], low, high });
+    });
+
+    document.getElementById('breakdownRows').innerHTML = rows.map(r =>
+      `<div class="bkd-row">
+        <span class="bkd-label">${r.label}</span>
+        <span class="bkd-amount">₹${fmtL(r.low)} – ${fmtL(r.high)} L</span>
+      </div>`
+    ).join('');
+
+    document.getElementById('resultLow').textContent  = fmtL(totalLow);
+    document.getElementById('resultHigh').textContent = fmtL(totalHigh);
+    document.getElementById('resultSub').textContent  =
+      `Lakhs · ${capFirst(state.finish)} finish · ${state.area.toLocaleString('en-IN')} sq.ft`;
+
+    const roomList = [...state.rooms].map(r => roomLabels[r]).join(', ');
+    const msg = `Hi Wood & Co. — I used your Interior Cost Estimator.\n\n*Name:* ${state.name}\n*Property:* ${capFirst(state.propType)}, ${state.area.toLocaleString('en-IN')} sq.ft\n*Rooms:* ${roomList}\n*Finish:* ${capFirst(state.finish)}\n*Timeline:* ${timeline || 'Not specified'}\n\n*Estimate:* ₹${fmtL(totalLow)}–${fmtL(totalHigh)} Lakhs\n\nI'd like to book a free consultation.`;
+    document.getElementById('waLink').href = `https://wa.me/918747809064?text=${encodeURIComponent(msg)}`;
+
+    // ── Send lead to Web3Forms (silent, non-blocking)
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: '22972b5e-0ac2-46c9-85d9-1fe68c0f5a9d',
+        subject: `New Interior Lead — ${name}`,
+        name: name,
+        phone: state.phone,
+        property_type: capFirst(state.propType),
+        area_sqft: state.area,
+        rooms: roomList,
+        finish_level: capFirst(state.finish),
+        timeline: timeline || 'Not specified',
+        estimate: `₹${fmtL(totalLow)} – ₹${fmtL(totalHigh)} Lakhs`,
+        from_name: 'Wood & Co. Calculator'
+      })
+    }).catch(() => {}); // silent fail — never block the user
+
+    goStep(5);
+    [1,2,3,4].forEach(n => {
+      document.getElementById('pd'+n).classList.remove('active');
+      document.getElementById('pd'+n).classList.add('done');
+      if (n < 4) document.getElementById('pl'+n).classList.add('done');
+    });
+  }
+
+  function showFormErr(msg) {
+    const el = document.getElementById('formError');
+    el.textContent = msg; el.style.display = 'block';
+  }
+
+  function fmtL(n) { return (n/100000).toFixed(1).replace(/\.0$/,''); }
+  function capFirst(s) { return s ? s.charAt(0).toUpperCase()+s.slice(1) : ''; }
+
+  function restart() {
+    state.propType = null; state.area = 1000;
+    state.rooms = new Set(); state.finish = null;
+    document.querySelectorAll('.opt, .prop-row').forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('.room-tile').forEach(r => r.classList.remove('checked'));
+    document.getElementById('areaSlider').value = 1000;
+    updateArea(1000);
+    document.getElementById('leadName').value = '';
+    document.getElementById('leadPhone').value = '';
+    document.getElementById('leadTimeline').value = '';
+    document.getElementById('btn1').disabled = true;
+    document.getElementById('btn3').disabled = true;
+    goStep(1);
+  }
+
+  // Init slider gradient
+  updateArea(1000);
+</script>
+</body>
+</html>
