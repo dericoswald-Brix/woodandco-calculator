@@ -1291,6 +1291,7 @@
     // Send lead to Web3Forms. Bots that tick the hidden box are dropped.
     if (!isBot) fetch('https://api.web3forms.com/submit', {
       method: 'POST',
+      keepalive: true,
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
         access_key: WEB3_KEY,
@@ -1298,10 +1299,8 @@
         name: name,
         phone: state.phone,
         email: email || 'Not given',
-        ...(email ? { replyto: email } : {}),
         lead_check: flags.length ? flags.join('; ') : 'No warning signs',
         time_taken: `${secs} seconds`,
-        whatsapp_check: `https://wa.me/91${state.phone}`,
         property_type: capFirst(state.propType),
         area_sqft: state.area,
         rooms: roomList,
@@ -1309,8 +1308,7 @@
         timeline: timeline || 'Not specified',
         estimate: `₹${fmtL(totalLow)} – ₹${fmtL(totalHigh)} Lakhs`,
         device: /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
-        from_name: 'Wood & Co. Calculator',
-        botcheck: false
+        from_name: 'Wood & Co. Calculator'
       })
     }).catch(() => {});
 
@@ -1329,6 +1327,7 @@
     waNotified = true;
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
+      keepalive: true,
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
         access_key: WEB3_KEY,
@@ -1336,8 +1335,7 @@
         name: state.name,
         phone: state.phone,
         note: 'This person tapped Book a consultation on WhatsApp after seeing the estimate.',
-        from_name: 'Wood & Co. Calculator',
-        botcheck: false
+        from_name: 'Wood & Co. Calculator'
       })
     }).catch(() => {});
   }
