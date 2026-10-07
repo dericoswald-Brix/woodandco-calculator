@@ -948,7 +948,8 @@
             <h3 class="step-title">Where shall we<br><em>send your estimate?</em></h3>
             <p class="step-hint">We share the full breakdown on WhatsApp. No follow-up unless you ask.</p>
             <div class="cfield"><label for="leadName">Your name</label><input type="text" id="leadName" placeholder="Full name" autocomplete="name"></div>
-            <div class="cfield"><label for="leadPhone">WhatsApp number</label><input type="tel" id="leadPhone" placeholder="+91 98765 43210" autocomplete="tel" oninput="validatePhone()"><div class="error-msg" id="phoneError">Please enter a valid 10-digit number.</div></div>
+            <div class="cfield"><label for="leadPhone">WhatsApp number</label><input type="tel" id="leadPhone" placeholder="+91 98765 43210" autocomplete="tel" oninput="validatePhone()"><div class="error-msg" id="phoneError">Please enter a valid 10-digit Indian mobile number.</div></div>
+            <div class="cfield"><label for="leadEmail">Email <span style="text-transform:none;letter-spacing:0;color:var(--ink-soft)">(optional)</span></label><input type="email" id="leadEmail" placeholder="you@example.com" autocomplete="email" inputmode="email"></div>
             <div class="cfield"><label for="leadTimeline">When do you plan to begin?</label>
               <select id="leadTimeline">
                 <option value="">Select a timeline</option>
@@ -958,6 +959,7 @@
                 <option value="planning">Just exploring</option>
               </select>
             </div>
+            <input type="checkbox" id="botcheck" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
             <div class="step-actions">
               <button class="btn btn-dark" onclick="showResult()">Reveal my estimate</button>
               <div class="error-msg" id="formError" style="text-align:center"></div>
@@ -975,7 +977,7 @@
             <div id="breakdownRows"></div>
             <p class="disclaimer">An indicative range based on current Bangalore market rates. Final investment depends on design complexity, brand specifications and site conditions. A Wood &amp; Co. designer will share a precise quote after your complimentary site visit.</p>
             <div class="step-actions">
-              <a id="waLink" class="btn btn-dark wa-btn" href="#" target="_blank" rel="noopener">
+              <a id="waLink" class="btn btn-dark wa-btn" href="#" target="_blank" rel="noopener" onclick="notifyWhatsApp()">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
                 Book a consultation on WhatsApp
               </a>
@@ -1139,6 +1141,22 @@
 
 <script>
   const state = { propType: null, area: 1000, rooms: new Set(), finish: null, name: '', phone: '', timeline: '' };
+  const pageStart = Date.now();
+  const WEB3_KEY = '22972b5e-0ac2-46c9-85d9-1fe68c0f5a9d';
+  let waNotified = false;
+
+  // Normalise to a 10-digit Indian mobile number
+  function cleanPhone(v) {
+    let d = v.replace(/\D/g, '');
+    if (d.length === 12 && d.startsWith('91')) d = d.slice(2);
+    else if (d.length === 11 && d.startsWith('0')) d = d.slice(1);
+    return d;
+  }
+  // Hard blocks: clearly impossible numbers
+  function phoneInvalid(d) {
+    return d.length !== 10 || !/^[6-9]/.test(d) || /^(\d)\1{9}$/.test(d) ||
+           ['1234567890','0123456789','9876543210'].includes(d);
+  }
 
   const roomRates = {
     kitchen:  { standard:[80000,120000],  premium:[130000,200000],  luxury:[220000,380000] },
@@ -1202,8 +1220,8 @@
   }
 
   function validatePhone() {
-    const raw = document.getElementById('leadPhone').value.replace(/\D/g,'');
-    document.getElementById('phoneError').classList.toggle('show', raw.length > 0 && raw.length < 10);
+    const d = cleanPhone(document.getElementById('leadPhone').value);
+    document.getElementById('phoneError').classList.toggle('show', d.length >= 10 && phoneInvalid(d));
   }
 
   // animated count-up for the result figure
@@ -1220,16 +1238,19 @@
 
   function showResult() {
     const name = document.getElementById('leadName').value.trim();
-    const phoneRaw = document.getElementById('leadPhone').value.replace(/\D/g,'');
+    const phoneRaw = cleanPhone(document.getElementById('leadPhone').value);
     const timeline = document.getElementById('leadTimeline').value;
+    const email = document.getElementById('leadEmail').value.trim().toLowerCase();
     const errEl = document.getElementById('formError');
 
     if (!name) { showFormErr('Please enter your name.'); return; }
-    if (phoneRaw.length < 10) { showFormErr('Please enter a valid WhatsApp number.'); return; }
+    if (!/^[A-Za-z][A-Za-z .']{1,39}$/.test(name)) { showFormErr('Please enter your name using letters only.'); return; }
+    if (email && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/.test(email)) { showFormErr('Please check your email address, or leave it blank.'); return; }
+    if (phoneInvalid(phoneRaw)) { showFormErr('Please enter a valid 10-digit Indian mobile number.'); return; }
 
     errEl.style.display = 'none';
     state.name = name;
-    state.phone = phoneRaw.slice(-10);
+    state.phone = phoneRaw;
     state.timeline = timeline;
 
     let totalLow = 0, totalHigh = 0;
@@ -1254,22 +1275,42 @@
     const msg = `Hi Wood & Co., I used your Interior Cost Estimator.\n\n*Name:* ${state.name}\n*Property:* ${capFirst(state.propType)}, ${state.area.toLocaleString('en-IN')} sq.ft\n*Rooms:* ${roomList}\n*Finish:* ${capFirst(state.finish)}\n*Timeline:* ${timeline || 'Not specified'}\n\n*Estimate:* ₹${fmtL(totalLow)}–${fmtL(totalHigh)} Lakhs\n\nI'd like to book a free consultation.`;
     document.getElementById('waLink').href = `https://wa.me/918747809064?text=${encodeURIComponent(msg)}`;
 
-    // Send lead to Web3Forms (silent, non-blocking)
-    fetch('https://api.web3forms.com/submit', {
+    // Lead quality checks (flag, don't block)
+    const secs = Math.round((Date.now() - pageStart) / 1000);
+    const flags = [];
+    if (/(\d)\1{5,}/.test(state.phone)) flags.push('Phone has 6+ repeated digits');
+    if (secs < 25) flags.push(`Finished very fast (${secs}s)`);
+    if (!/[aeiouy]/i.test(name)) flags.push('Name has no vowels');
+    if (name.replace(/[^A-Za-z]/g, '').length < 3) flags.push('Very short name');
+    if (/(.)\1{2,}/i.test(name)) flags.push('Name has repeated letters');
+    const tempMail = ['mailinator.com','yopmail.com','10minutemail.com','guerrillamail.com','tempmail.com','temp-mail.org','trashmail.com','sharklasers.com','getnada.com','dispostable.com','maildrop.cc','throwawaymail.com'];
+    if (email && tempMail.includes(email.split('@')[1])) flags.push('Disposable email address');
+    if (email && /^(test|abc|asd|qwe|xyz|aaa)/.test(email)) flags.push('Email looks made up');
+    const isBot = document.getElementById('botcheck').checked;
+
+    // Send lead to Web3Forms. Bots that tick the hidden box are dropped.
+    if (!isBot) fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
-        access_key: '22972b5e-0ac2-46c9-85d9-1fe68c0f5a9d',
-        subject: `New Interior Lead: ${name}`,
+        access_key: WEB3_KEY,
+        subject: (flags.length ? '[CHECK] ' : '') + `New Interior Lead: ${name}`,
         name: name,
         phone: state.phone,
+        email: email || 'Not given',
+        ...(email ? { replyto: email } : {}),
+        lead_check: flags.length ? flags.join('; ') : 'No warning signs',
+        time_taken: `${secs} seconds`,
+        whatsapp_check: `https://wa.me/91${state.phone}`,
         property_type: capFirst(state.propType),
         area_sqft: state.area,
         rooms: roomList,
         finish_level: capFirst(state.finish),
         timeline: timeline || 'Not specified',
         estimate: `₹${fmtL(totalLow)} – ₹${fmtL(totalHigh)} Lakhs`,
-        from_name: 'Wood & Co. Calculator'
+        device: /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
+        from_name: 'Wood & Co. Calculator',
+        botcheck: false
       })
     }).catch(() => {});
 
@@ -1281,6 +1322,24 @@
     });
     countUp(document.getElementById('resultLow'), totalLow);
     countUp(document.getElementById('resultHigh'), totalHigh);
+  }
+
+  function notifyWhatsApp() {
+    if (waNotified || !state.phone || document.getElementById('botcheck').checked) return;
+    waNotified = true;
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: WEB3_KEY,
+        subject: `Hot lead, opened WhatsApp: ${state.name}`,
+        name: state.name,
+        phone: state.phone,
+        note: 'This person tapped Book a consultation on WhatsApp after seeing the estimate.',
+        from_name: 'Wood & Co. Calculator',
+        botcheck: false
+      })
+    }).catch(() => {});
   }
 
   function showFormErr(msg) {
@@ -1300,6 +1359,7 @@
     updateArea(1000);
     document.getElementById('leadName').value = '';
     document.getElementById('leadPhone').value = '';
+    document.getElementById('leadEmail').value = '';
     document.getElementById('leadTimeline').value = '';
     document.getElementById('btn1').disabled = true;
     document.getElementById('btn3').disabled = true;
