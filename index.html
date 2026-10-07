@@ -949,6 +949,7 @@
             <p class="step-hint">We share the full breakdown on WhatsApp. No follow-up unless you ask.</p>
             <div class="cfield"><label for="leadName">Your name</label><input type="text" id="leadName" placeholder="Full name" autocomplete="name"></div>
             <div class="cfield"><label for="leadPhone">WhatsApp number</label><input type="tel" id="leadPhone" placeholder="+91 98765 43210" autocomplete="tel" oninput="validatePhone()"><div class="error-msg" id="phoneError">Please enter a valid 10-digit Indian mobile number.</div></div>
+            <div class="cfield"><label for="leadEmail">Email <span style="text-transform:none;letter-spacing:0;color:var(--ink-soft)">(optional)</span></label><input type="email" id="leadEmail" placeholder="you@example.com" autocomplete="email" inputmode="email"></div>
             <div class="cfield"><label for="leadTimeline">When do you plan to begin?</label>
               <select id="leadTimeline">
                 <option value="">Select a timeline</option>
@@ -1237,10 +1238,12 @@
     const name = document.getElementById('leadName').value.trim();
     const phoneRaw = cleanPhone(document.getElementById('leadPhone').value);
     const timeline = document.getElementById('leadTimeline').value;
+    const email = document.getElementById('leadEmail').value.trim();
     const errEl = document.getElementById('formError');
 
     if (!name) { showFormErr('Please enter your name.'); return; }
     if (!/^[A-Za-z][A-Za-z .']{1,39}$/.test(name)) { showFormErr('Please enter your name using letters only.'); return; }
+    if (email && !/^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(email)) { showFormErr('Please check your email address, or leave it blank.'); return; }
     if (phoneInvalid(phoneRaw)) { showFormErr('Please enter a valid 10-digit Indian mobile number.'); return; }
 
     errEl.style.display = 'none';
@@ -1279,6 +1282,7 @@
         subject: `New Interior Lead: ${name}`,
         name: name,
         phone: state.phone,
+        ...(email ? { email: email } : {}),
         property_type: capFirst(state.propType),
         area_sqft: state.area,
         rooms: roomList,
@@ -1316,6 +1320,7 @@
     updateArea(1000);
     document.getElementById('leadName').value = '';
     document.getElementById('leadPhone').value = '';
+    document.getElementById('leadEmail').value = '';
     document.getElementById('leadTimeline').value = '';
     document.getElementById('btn1').disabled = true;
     document.getElementById('btn3').disabled = true;
